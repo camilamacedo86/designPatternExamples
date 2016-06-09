@@ -3,10 +3,20 @@ package templateMethod;
 /**
  * Created by camilamacedo on 6/7/16.
  */
-public class FederalTax implements Tax {
+public class FederalTax extends TemplateConditionalInvoice {
 
     @Override
-    public double calculate(Invoice invoice) {
-        return invoice.getValue() * 0.06;
+    public boolean isToApplyMaximunRate(Invoice invoice) {
+        return invoice.getValue() > 500;
+    }
+
+    @Override
+    protected double applyMaximumRate(Invoice invoice) {
+        return invoice.getValue() * 0.70;
+    }
+
+    @Override
+    protected double applyMinimumRate(Invoice invoice) {
+        return invoice.getValue() * 0.50;
     }
 }

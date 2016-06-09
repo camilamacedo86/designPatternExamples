@@ -1,28 +1,47 @@
 package state;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Created by camilamacedo on 6/7/16.
  */
 public class Order {
 
+    protected double value;
+    protected OrderState currentState; // veja a mudança aqui
 
-    private List<Item> itens = new ArrayList<>();
+    public Order(double value) {
+        this.value = value;
+        this.currentState = new OrderProgress();
+    }
 
-    public Order() {}
+    public void applyDiscountExtra() {
+        currentState.applyDiscountExtra(this);
+    }
+
+    public void approve() {
+        currentState.approve(this);
+    }
+
+    public void refuse() {
+        currentState.refuse(this);
+    }
+
+    public void finish() {
+        currentState.finish(this);
+    }
 
     public double getValue() {
-        return this.getItens().stream().mapToDouble(i -> i.getValue()).sum();
+        return value;
     }
 
-    public List<Item> getItens() {
-        return Collections.unmodifiableList(itens);
+    public void setValue(double value) {
+        this.value = value;
     }
 
-    public void addItem(Item item) {
-        itens.add(item);
+    public OrderState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(OrderState currentState) {
+        this.currentState = currentState;
     }
 }
